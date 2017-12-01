@@ -8,6 +8,23 @@ body {
 
 /*Content Section*/
 
+.playSpace {
+  /*background-color: gray;*/
+  background: linear-gradient(#919aaa, black);
+  width: 450px;
+  height: 700px;
+  text-align: center;
+  margin: 25px auto;
+  border-radius: 10px;
+}
+
+.title {
+  background-color: #919aaa;
+  position: relative;
+  top: 10px;
+  margin-bottom: 20px;
+}
+
 h1 {
   font-family: 'Baloo Tamma', 'Impact', sans-serif;
   color: green;
@@ -19,21 +36,17 @@ h2 {
   font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
   color: orange;
   font-size: 46px;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   border-bottom: 2px solid #b3bac6;
 }
 
-.playSpace {
-  background-color: gray;
-  width: 450px;
-  height: 700px;
-  text-align: center;
-  margin: 25px auto;
+p {
+  color: #b3bac6;
+  font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
+  font-size: 30px;
+  margin: 22px 0 0 0;
 }
 
-.title {
-  background-color: #919aaa;
-}
 
 
 
