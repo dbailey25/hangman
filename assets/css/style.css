@@ -1,0 +1,48 @@
+/*Global*/
+body {
+  background-image: url("../images/collage.png");
+  background-color: #2b58bf;
+}
+
+
+
+/*Content Section*/
+
+h1 {
+  font-family: 'Baloo Tamma', 'Impact', sans-serif;
+  color: green;
+  font-size: 74px;
+  margin-bottom: -15px;
+}
+
+h2 {
+  font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
+  color: orange;
+  font-size: 46px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #b3bac6;
+}
+
+.playSpace {
+  background-color: gray;
+  width: 450px;
+  height: 700px;
+  text-align: center;
+  margin: 25px auto;
+}
+
+.title {
+  background-color: #919aaa;
+}
+
+
+
+
+
+
+
+@media screen and (max-width:600px) {
+  body {
+    background-image: url();
+    background-color: #2b58bf;
+  }
