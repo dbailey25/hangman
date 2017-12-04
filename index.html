@@ -24,20 +24,118 @@
       <h2>Animal Style</h2>
     </div>
 
-    <!-- image for correctly guessed word -->
+    <!-- image -->
     <img src="assets/images/hangman_lg.png" alt="image" height="100px">
 
     <!-- game content -->
     <p>Press any key to play!</p>
+    <p>Current word:</p>
+    <div id="current-word"> </div>
     <p>Guesses remaining: </p>
     <p>Already guessed:</p>
     <p>---</p>
     <p>Wins: </p>
   </div>
-
-
-
 </div>
+
+<script type="text/javascript">
+  // wordbank
+  var words = ["bear", "monkey", "snake", "tiger", "zebra"]
+  // objects for each word
+  var bear = {char:4, charArr:["b", "e", "a", "r"], image:"assets/images/bear.jpg", audio:"assets/audio/bear.mp3"}
+  var monkey = {char:6, charArr:["m", "o", "n", "k", "e", "y"], image:"assets/images/monkey.jpg", audio:"assets/audio/monkey.mp3"}
+  var snake = {char:5, charArr:["s", "n", "a", "k", "e"], image:"assets/images/snake.jpg", audio:"assets/audio/snake.mp3"}
+  var tiger = {char:5, charArr:["t", "i", "g", "e", "r"], image:"assets/images/tiger.jpg", audio:"assets/audio/tiger.mp3"}
+  var zebra = {char:5, charArr:["z", "e", "b", "r", "a"], image:"assets/images/zebra.jpg", audio:"assets/audio/zebra.mp3"}
+
+  var wordDiv = document.getElementById("current-word");
+
+  var random = Math.floor(Math.random() * 5);
+
+  console.log(words[random]);
+
+  var currentWord = words[random]
+console.log(currentWord);
+  // var wordDiv = document.getElementById("current-word")
+
+if (currentWord==="bear") {
+  for (var i = 0; i < bear.char; i++) {
+    var letterDiv = document.createElement("div");
+    letterDiv.innerHTML = "_";
+    wordDiv.appendChild(letterDiv);
+    letterDiv.setAttribute("class", "letterDiv");
+    letterDiv.setAttribute("id", "bearLetter"+i);
+  }
+}
+else if (currentWord==="monkey") {
+  for (var i = 0; i < monkey.char; i++) {
+    var letterDiv = document.createElement("div");
+    letterDiv.innerHTML = "_";
+    wordDiv.appendChild(letterDiv);
+    letterDiv.setAttribute("class", "letterDiv");
+    letterDiv.setAttribute("id", "monkeyLetter"+i);
+  }
+}
+else if (currentWord==="snake") {
+  for (var i = 0; i < snake.char; i++) {
+    var letterDiv = document.createElement("div");
+    letterDiv.innerHTML = "_";
+    wordDiv.appendChild(letterDiv);
+    letterDiv.setAttribute("class", "letterDiv");
+    letterDiv.setAttribute("id", "snakeLetter"+i);
+  }
+}
+else if (currentWord==="tiger") {
+  for (var i = 0; i < tiger.char; i++) {
+    var letterDiv = document.createElement("div");
+    letterDiv.innerHTML = "_";
+    wordDiv.appendChild(letterDiv);
+    letterDiv.setAttribute("class", "letterDiv");
+    letterDiv.setAttribute("id", "tigerLetter"+i);
+  }
+}
+else if (currentWord==="zebra") {
+  for (var i = 0; i < zebra.char; i++) {
+    var letterDiv = document.createElement("div");
+    letterDiv.innerHTML = "_";
+    wordDiv.appendChild(letterDiv);
+    letterDiv.setAttribute("class", "letterDiv");
+    letterDiv.setAttribute("id", "zebraLetter"+i);
+  }
+}
+else {
+
+}
+
+  // wordDiv.innerHTML = displayWord()
+  //
+  // function displayWord() {
+  //   for (var i = 0; i < currentWord.char; i++) {
+  //     var letterDiv = document.createElement("div");
+  //     letterDiv.innerHTML = "-";
+  //   }
+  // }
+
+  // wordDiv.innerHTML = displayWord()
+  //
+  // function displayWord() {
+  //   for (var i = 0; i < bear.char; i++) {
+  //     var letterDiv = document.createElement("div");
+  //     letterDiv.innerHTML = "-";
+  //   }
+  // }
+
+
+  // begin game
+  // document.onkeyup = function(event) {
+  //   if (event.) {
+  //
+  //   } else {
+  //
+  //   }
+  // }
+
+</script>
 
   </body>
 </html>

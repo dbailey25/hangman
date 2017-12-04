@@ -43,16 +43,19 @@ h2 {
 p {
   color: #b3bac6;
   font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
-  font-size: 30px;
-  margin: 22px 0 0 0;
+  font-size: 25px;
+  margin: 18px 0 0 0;
 }
 
+/*javascript styles*/
 
-
-
-
-
-
+.letterDiv {
+  color: #b3bac6;
+  font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
+  font-size: 25px;
+  display: inline-block;
+  margin: 3px;
+  }
 
 @media screen and (max-width:600px) {
   body {
