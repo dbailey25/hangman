@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- links to external files -->
   <!-- css-reset -->
   <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
@@ -11,14 +12,15 @@
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <!-- fonts -->
   <link href="https://fonts.googleapis.com/css?family=Baloo+Tamma|Bubblegum+Sans" rel="stylesheet">
-    <title>2-Hangman</title>
-  </head>
-  <body>
+  <title>2-Hangman</title>
+</head>
+
+<body>
 
   <!-- section for game play -->
-   <div class="playSpace">
+  <div class="playSpace">
 
-   <!-- masthead -->
+    <!-- masthead -->
     <div class="title">
       <h1>Hangman</h1>
       <h2>Animal Style</h2>
@@ -33,109 +35,92 @@
     <div id="current-word"> </div>
     <p>Guesses remaining: </p>
     <p>Already guessed:</p>
-    <p>---</p>
+    <div id="wrong-letters"> </div>
     <p>Wins: </p>
   </div>
-</div>
+  </div>
 
-<script type="text/javascript">
-  // wordbank
-  var words = ["bear", "monkey", "snake", "tiger", "zebra"]
-  // objects for each word
-  var bear = {char:4, charArr:["b", "e", "a", "r"], image:"assets/images/bear.jpg", audio:"assets/audio/bear.mp3"}
-  var monkey = {char:6, charArr:["m", "o", "n", "k", "e", "y"], image:"assets/images/monkey.jpg", audio:"assets/audio/monkey.mp3"}
-  var snake = {char:5, charArr:["s", "n", "a", "k", "e"], image:"assets/images/snake.jpg", audio:"assets/audio/snake.mp3"}
-  var tiger = {char:5, charArr:["t", "i", "g", "e", "r"], image:"assets/images/tiger.jpg", audio:"assets/audio/tiger.mp3"}
-  var zebra = {char:5, charArr:["z", "e", "b", "r", "a"], image:"assets/images/zebra.jpg", audio:"assets/audio/zebra.mp3"}
+  <script type="text/javascript">
+    // variables
+    var words = ["bear", "monkey", "snake", "tiger", "zebra"]
+    var bear = {
+      char: 4,
+      charArr: ["b", "e", "a", "r"],
+      image: "assets/images/bear.jpg",
+      audio: "assets/audio/bear.mp3"
+    }
+    var monkey = {
+      char: 6,
+      charArr: ["m", "o", "n", "k", "e", "y"],
+      image: "assets/images/monkey.jpg",
+      audio: "assets/audio/monkey.mp3"
+    }
+    var snake = {
+      char: 5,
+      charArr: ["s", "n", "a", "k", "e"],
+      image: "assets/images/snake.jpg",
+      audio: "assets/audio/snake.mp3"
+    }
+    var tiger = {
+      char: 5,
+      charArr: ["t", "i", "g", "e", "r"],
+      image: "assets/images/tiger.jpg",
+      audio: "assets/audio/tiger.mp3"
+    }
+    var zebra = {
+      char: 5,
+      charArr: ["z", "e", "b", "r", "a"],
+      image: "assets/images/zebra.jpg",
+      audio: "assets/audio/zebra.mp3"
+    }
+    var wordDiv = document.getElementById("current-word");
+    var random = Math.floor(Math.random() * 5);
+    var currentWord = words[random]
+    console.log(words[random]);
+    console.log(currentWord);
+    console.log(currentWord.length);
 
-  var wordDiv = document.getElementById("current-word");
+// initial word selection
+    function displayWord1() {
+      for (var i = 0; i < currentWord.length; i++) {
+        var letterDiv = document.createElement("div");
+        letterDiv.innerHTML = "_";
+        wordDiv.appendChild(letterDiv);
+        letterDiv.setAttribute("class", "letterDiv");
+        letterDiv.setAttribute("id", currentWord + "Letter" + i);
+      }
+    }
+    displayWord1()
 
-  var random = Math.floor(Math.random() * 5);
-
-  console.log(words[random]);
-
-  var currentWord = words[random]
-console.log(currentWord);
-  // var wordDiv = document.getElementById("current-word")
-
-if (currentWord==="bear") {
-  for (var i = 0; i < bear.char; i++) {
-    var letterDiv = document.createElement("div");
-    letterDiv.innerHTML = "_";
-    wordDiv.appendChild(letterDiv);
-    letterDiv.setAttribute("class", "letterDiv");
-    letterDiv.setAttribute("id", "bearLetter"+i);
-  }
-}
-else if (currentWord==="monkey") {
-  for (var i = 0; i < monkey.char; i++) {
-    var letterDiv = document.createElement("div");
-    letterDiv.innerHTML = "_";
-    wordDiv.appendChild(letterDiv);
-    letterDiv.setAttribute("class", "letterDiv");
-    letterDiv.setAttribute("id", "monkeyLetter"+i);
-  }
-}
-else if (currentWord==="snake") {
-  for (var i = 0; i < snake.char; i++) {
-    var letterDiv = document.createElement("div");
-    letterDiv.innerHTML = "_";
-    wordDiv.appendChild(letterDiv);
-    letterDiv.setAttribute("class", "letterDiv");
-    letterDiv.setAttribute("id", "snakeLetter"+i);
-  }
-}
-else if (currentWord==="tiger") {
-  for (var i = 0; i < tiger.char; i++) {
-    var letterDiv = document.createElement("div");
-    letterDiv.innerHTML = "_";
-    wordDiv.appendChild(letterDiv);
-    letterDiv.setAttribute("class", "letterDiv");
-    letterDiv.setAttribute("id", "tigerLetter"+i);
-  }
-}
-else if (currentWord==="zebra") {
-  for (var i = 0; i < zebra.char; i++) {
-    var letterDiv = document.createElement("div");
-    letterDiv.innerHTML = "_";
-    wordDiv.appendChild(letterDiv);
-    letterDiv.setAttribute("class", "letterDiv");
-    letterDiv.setAttribute("id", "zebraLetter"+i);
-  }
-}
-else {
-
-}
-
-  // wordDiv.innerHTML = displayWord()
-  //
-  // function displayWord() {
-  //   for (var i = 0; i < currentWord.char; i++) {
-  //     var letterDiv = document.createElement("div");
-  //     letterDiv.innerHTML = "-";
-  //   }
-  // }
-
-  // wordDiv.innerHTML = displayWord()
-  //
-  // function displayWord() {
-  //   for (var i = 0; i < bear.char; i++) {
-  //     var letterDiv = document.createElement("div");
-  //     letterDiv.innerHTML = "-";
-  //   }
-  // }
+    // play game
 
 
-  // begin game
-  // document.onkeyup = function(event) {
-  //   if (event.) {
-  //
-  //   } else {
-  //
-  //   }
-  // }
 
-</script>
+    document.onkeyup = function(event) {
+    var userInput = String.fromCharCode(event.keyCode);
+    var input = userInput.toLowerCase();
+      if (/[a-z]/.test(input))
+      // if correct
+    if (currentWord.indexOf(input) > -1) {
+      var correctLetter = document.getElementById(currentWord+"Letter"+currentWord.indexOf(input));
+      console.log(correctLetter)
+      correctLetter.innerHTML = input;
+    }
+    // if incorrect
+    else {
+      var incorrectLetter = document.getElementById("wrong-letters")
+      
+    }
+    }
 
-  </body>
+
+
+
+
+
+
+  </script>
+
+</body>
+
 </html>
