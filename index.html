@@ -27,7 +27,8 @@
     </div>
 
     <!-- image -->
-    <img src="assets/images/hangman_lg.png" alt="image" height="100px">
+    <img id="game-image" class="image" src="assets/images/hangman_lg.png" alt="image">
+    
 
     <!-- game content -->
     <p>Press any key to play!</p>
@@ -40,6 +41,27 @@
     <p>Wins: </p>
   </div>
   </div>
+
+  <audio id="bear">
+    <source src= "assets/audio/bear.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="monkey">
+  <source src= "assets/audio/monkey.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="snake">
+    <source src= "assets/audio/snake.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="tiger">
+    <source src= "assets/audio/tiger.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="zebra">
+    <source src= "assets/audio/zebra.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <script type="text/javascript">
   // variables
@@ -95,7 +117,7 @@
         correctLetterDiv.setAttribute("class", "letterDiv");
         correctLetterDiv.setAttribute("id", currentWord + "Letter" + i);
       }
-      // var guessRemain = document.getElementById("remaining-guesses");
+      // display initial guesses remaining
       var initialGuesses = currentWord.length+6
       guessRemain.innerHTML = initialGuesses;
       guessesRemaining.push(initialGuesses);
@@ -110,17 +132,17 @@
     var input = userInput.toLowerCase();
     console.log(input);
   // verify that the keystroke is a letter
-    if (/[a-z]/.test(input))
+    if (/[a-z]/.test(input)) {
   // verify that the letter has not been previously guessed
     if (correctGuess.indexOf(input) && incorrectGuess.indexOf(input) == -1){
-  // if correct
+  // if user guess is correct
     if (currentWord.indexOf(input) > -1) {
       var correctLetter = document.getElementById(currentWord+"Letter"+currentWord.indexOf(input));
       correctLetter.innerHTML = input;
       correctGuess.push(input);
       console.log("correctGuess-"+correctGuess);
     }
-  // if incorrect
+  // if user guess is incorrect
     else {
       var incorrectLetter = document.getElementById("wrong-letters")
       var incorrectLetterDiv = document.createElement("div");
@@ -140,19 +162,34 @@
   // decrement Guesses remaining display
     function remainingGuesses() {
       console.log("input:remainingGuesses-"+input);
-
         var guessesLeft = guessesRemaining - totalGuesses
         console.log("guessesRemaining-"+guessesRemaining);
         console.log("totalGuesses-"+totalGuesses);
         console.log("guessesLeft-"+guessesLeft);
         guessRemain.innerHTML = guessesLeft
-
     }
     remainingGuesses()
+  // determine if user won
+  function playAudio() {
+    var audio = document.getElementById(currentWord);
+    audio.play();
+  }
+
+    function determineWin() {
+      if ((correctGuess.length == currentWord.length) && guessesRemaining > -1) {
+        var replaceImage = document.getElementById("game-image");
+        var newImage = "assets/images/"+currentWord+".jpg";
+        console.log("newImage-"+newImage);
+        replaceImage.setAttribute("src",newImage);
+        playAudio();
+      }
+    }
+    determineWin()
+
 
     }
   }
-
+}
 
 
 

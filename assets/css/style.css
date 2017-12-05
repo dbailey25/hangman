@@ -25,6 +25,11 @@ body {
   margin-bottom: 20px;
 }
 
+.image {
+  height: 100px;
+  border-radius: 5px;
+}
+
 h1 {
   font-family: 'Baloo Tamma', 'Impact', sans-serif;
   color: green;
