@@ -34,6 +34,7 @@
     <p>Current word:</p>
     <div id="current-word"> </div>
     <p>Guesses remaining: </p>
+    <div id="remaining-guesses" class="letterDiv"> </div>
     <p>Already guessed:</p>
     <div id="wrong-letters"> </div>
     <p>Wins: </p>
@@ -41,7 +42,7 @@
   </div>
 
   <script type="text/javascript">
-    // variables
+  // variables
     var words = ["bear", "monkey", "snake", "tiger", "zebra"]
     var bear = {
       char: 4,
@@ -74,45 +75,83 @@
       audio: "assets/audio/zebra.mp3"
     }
     var wordDiv = document.getElementById("current-word");
+    var guessRemain = document.getElementById("remaining-guesses");
     var random = Math.floor(Math.random() * 5);
-    var currentWord = words[random]
+    var currentWord = words[random];
+    var correctGuess = [];
+    var incorrectGuess = [];
+    var totalGuesses = [];
+    var guessesRemaining = [];
     console.log(words[random]);
     console.log(currentWord);
-    console.log(currentWord.length);
+    console.log("word length-"+currentWord.length);
 
-// initial word selection
-    function displayWord1() {
+    // initial word generation
+    function initialWord() {
       for (var i = 0; i < currentWord.length; i++) {
-        var letterDiv = document.createElement("div");
-        letterDiv.innerHTML = "_";
-        wordDiv.appendChild(letterDiv);
-        letterDiv.setAttribute("class", "letterDiv");
-        letterDiv.setAttribute("id", currentWord + "Letter" + i);
+        var correctLetterDiv = document.createElement("div");
+        correctLetterDiv.innerHTML = "_";
+        wordDiv.appendChild(correctLetterDiv);
+        correctLetterDiv.setAttribute("class", "letterDiv");
+        correctLetterDiv.setAttribute("id", currentWord + "Letter" + i);
       }
+      // var guessRemain = document.getElementById("remaining-guesses");
+      var initialGuesses = currentWord.length+6
+      guessRemain.innerHTML = initialGuesses;
+      guessesRemaining.push(initialGuesses);
+      console.log("guessesRemaining-"+guessesRemaining);
     }
-    displayWord1()
+    initialWord()
 
-    // play game
-
-
-
+  // play game
+  // capture user guess
     document.onkeyup = function(event) {
     var userInput = String.fromCharCode(event.keyCode);
     var input = userInput.toLowerCase();
-      if (/[a-z]/.test(input))
-      // if correct
+    console.log(input);
+  // verify that the keystroke is a letter
+    if (/[a-z]/.test(input))
+  // verify that the letter has not been previously guessed
+    if (correctGuess.indexOf(input) && incorrectGuess.indexOf(input) == -1){
+  // if correct
     if (currentWord.indexOf(input) > -1) {
       var correctLetter = document.getElementById(currentWord+"Letter"+currentWord.indexOf(input));
-      console.log(correctLetter)
       correctLetter.innerHTML = input;
+      correctGuess.push(input);
+      console.log("correctGuess-"+correctGuess);
     }
-    // if incorrect
+  // if incorrect
     else {
       var incorrectLetter = document.getElementById("wrong-letters")
-      
+      var incorrectLetterDiv = document.createElement("div");
+      incorrectLetterDiv.innerHTML = input+",";
+      incorrectLetterDiv.setAttribute("class", "letterDiv");
+      incorrectLetter.appendChild(incorrectLetterDiv);
+      incorrectGuess.push(input);
+      console.log("incorrectGuess-"+incorrectGuess);
     }
+  // track number of guesses
+    function guessCount() {
+      var totGuesses = correctGuess.length + incorrectGuess.length
+      totalGuesses = totGuesses;
+      console.log("totGuesses-"+totGuesses);
     }
+    guessCount()
+  // decrement Guesses remaining display
+    function remainingGuesses() {
+      console.log("input:remainingGuesses-"+input);
 
+        var guessesLeft = guessesRemaining - totalGuesses
+        console.log("guessesRemaining-"+guessesRemaining);
+        console.log("totalGuesses-"+totalGuesses);
+        console.log("guessesLeft-"+guessesLeft);
+        guessRemain.innerHTML = guessesLeft
+
+    }
+    remainingGuesses()
+
+    }
+  }
 
 
 
