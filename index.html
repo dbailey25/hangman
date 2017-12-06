@@ -28,7 +28,9 @@
 
     <!-- image -->
     <img id="game-image" class="image" src="assets/images/hangman_lg.png" alt="image">
-    <div id="pause"> </div>
+    <div id="pause">
+      <p id="btn"></p>
+    </div>
 
 
     <!-- game content -->
@@ -69,36 +71,36 @@
   <script type="text/javascript">
   // variables
     var words = ["bear", "monkey", "snake", "tiger", "zebra"]
-    var bear = {
-      char: 4,
-      charArr: ["b", "e", "a", "r"],
-      image: "assets/images/bear.jpg",
-      audio: "assets/audio/bear.mp3"
-    }
-    var monkey = {
-      char: 6,
-      charArr: ["m", "o", "n", "k", "e", "y"],
-      image: "assets/images/monkey.jpg",
-      audio: "assets/audio/monkey.mp3"
-    }
-    var snake = {
-      char: 5,
-      charArr: ["s", "n", "a", "k", "e"],
-      image: "assets/images/snake.jpg",
-      audio: "assets/audio/snake.mp3"
-    }
-    var tiger = {
-      char: 5,
-      charArr: ["t", "i", "g", "e", "r"],
-      image: "assets/images/tiger.jpg",
-      audio: "assets/audio/tiger.mp3"
-    }
-    var zebra = {
-      char: 5,
-      charArr: ["z", "e", "b", "r", "a"],
-      image: "assets/images/zebra.jpg",
-      audio: "assets/audio/zebra.mp3"
-    }
+    // var bear = {
+    //   char: 4,
+    //   charArr: ["b", "e", "a", "r"],
+    //   image: "assets/images/bear.jpg",
+    //   audio: "assets/audio/bear.mp3"
+    // }
+    // var monkey = {
+    //   char: 6,
+    //   charArr: ["m", "o", "n", "k", "e", "y"],
+    //   image: "assets/images/monkey.jpg",
+    //   audio: "assets/audio/monkey.mp3"
+    // }
+    // var snake = {
+    //   char: 5,
+    //   charArr: ["s", "n", "a", "k", "e"],
+    //   image: "assets/images/snake.jpg",
+    //   audio: "assets/audio/snake.mp3"
+    // }
+    // var tiger = {
+    //   char: 5,
+    //   charArr: ["t", "i", "g", "e", "r"],
+    //   image: "assets/images/tiger.jpg",
+    //   audio: "assets/audio/tiger.mp3"
+    // }
+    // var zebra = {
+    //   char: 5,
+    //   charArr: ["z", "e", "b", "r", "a"],
+    //   image: "assets/images/zebra.jpg",
+    //   audio: "assets/audio/zebra.mp3"
+    // }
     // var wordDiv = document.getElementById("current-word");
     // var guessRemain = document.getElementById("remaining-guesses");
     var random = Math.floor(Math.random() * 5);
@@ -123,6 +125,7 @@
     var incorrectGuess = [];
     var totalGuesses = [];
     var guessesRemaining = [];
+    var audioPlaying = "bear";
 
     console.log(words[random]);
     console.log("current word length-"+word.length);
@@ -216,16 +219,23 @@
   }
   // function to display next word
   function displayNext() {
-    word = nextWord;
-    console.log("word-"+word);
-    displayWord();
+    for (var i = 0; i < nextWord.length; i++) {
+      var correctLetterDiv = document.createElement("div");
+      var wordDiv = document.getElementById("current-word");
+      correctLetterDiv.innerHTML = "_";
+      wordDiv.appendChild(correctLetterDiv);
+      correctLetterDiv.setAttribute("class", "letterDiv");
+      correctLetterDiv.setAttribute("id", nextWord + "Letter" + i);
     }
   // display initial guesses remaining
-    // var initialGuesses = word.length+8;
-    // guessRemain.innerHTML = initialGuesses;
-    // guessesRemaining[0] = initialGuesses;
-    // console.log("guessesRemaining-"+guessesRemaining);
-  // }
+    var initialGuesses = word.length+8;
+    var guessRemain = document.getElementById("remaining-guesses");
+    guessRemain.innerHTML = initialGuesses;
+    guessesRemaining[0] = initialGuesses;
+    // guessesRemaining.push(initialGuesses);
+    console.log("guessesRemaining-"+guessesRemaining);
+    word = nextWord;
+    }
 
   // function to determine if the user lost
   function determineLoss() {
@@ -239,25 +249,35 @@
   }
 
     // play audio for current word
-    function playAudio() {
-      var audio = document.getElementById(word);
-      audio.play();
-      // add pause button for audio
-      var pauseDiv = document.getElementById("pause");
-      var pauseBtn = document.createElement("button");
-      pauseBtn.setAttribute("onclick", "pauseAudio()");
-      pauseBtn.setAttribute("type", "button");
-      pauseBtn.setAttribute("class", "pauseBtn");
-      pauseBtn.innerHTML="Pause";
-      pauseDiv.appendChild(pauseBtn);
-    }
+    // function playAudio() {
+    //   var audio = document.getElementById(word);
+    //   console.log("play.word-"+word);
+    //   audio.play();
+    //   audioPlaying = word;
+    //   // add pause button for audio
+    //   var parent = document.getElementById("pause");
+    //   var child = document.getElementById("btn");
+    //   parent.removeChild(child);
+    //   var pauseDiv = document.getElementById("pause");
+    //   var pauseBtn = document.createElement("button");
+    //   pauseBtn.setAttribute("onclick", "pauseAudio()");
+    //   pauseBtn.setAttribute("type", "button");
+    //   pauseBtn.setAttribute("class", "pauseBtn");
+    //   pauseBtn.innerHTML="Pause";
+    //
+    //   // pauseDiv.replaceChild(pauseBtn, child);
+    //   pauseDiv.appendChild(pauseBtn);
+    // }
 
     // functions if the user won
     // count Wins
+    var winNum = 0;
+    var winCount;
     function countWins() {
-      var winNum = 1;
+      winCount = winNum++;
       var countWin = document.getElementById("win-count");
-      countWin.innerHTML = winNum++;
+      countWin.innerHTML = winCount;
+      console.log("winCount:"+winCount);
     }
     function determineWin() {
       if (correctGuess.length === word.length && guessesRemaining >= 0) {
@@ -268,8 +288,8 @@
         console.log("newImage-"+newImage);
         replaceImage.setAttribute("src",newImage);
         countWins();
-        pauseAudio();
-        playAudio();
+        // pauseAudio();
+        // playAudio();
         reset();
         displayNext();
       }
@@ -284,10 +304,10 @@
   }
 }
 
-function pauseAudio() {
-    var audio = document.getElementById(word);
-  audio.pause();
-}
+// function pauseAudio() {
+//     var audio = document.getElementById(audioPlaying);
+//   audio.pause();
+// }
 
 
 
