@@ -10,7 +10,7 @@ body {
 
 .playSpace {
   /*background-color: gray;*/
-  background: linear-gradient(#919aaa, black);
+  background: linear-gradient(#565860, black);
   width: 450px;
   height: 700px;
   text-align: center;
@@ -21,13 +21,24 @@ body {
 .title {
   background-color: #919aaa;
   position: relative;
-  top: 10px;
+  top: 0px;
   margin-bottom: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .image {
   height: 100px;
   border-radius: 5px;
+}
+
+.pauseBtn {
+  height: 20px;
+  width: 50px;
+  font-size: 10px;
+  border-style: outset;
+  margin-top: 5px;
+  padding: 1px;
 }
 
 h1 {

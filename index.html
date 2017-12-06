@@ -28,7 +28,8 @@
 
     <!-- image -->
     <img id="game-image" class="image" src="assets/images/hangman_lg.png" alt="image">
-    
+    <div id="pause" class="hiddenTxt"> </div>
+
 
     <!-- game content -->
     <p>Press any key to play!</p>
@@ -100,6 +101,7 @@
     var guessRemain = document.getElementById("remaining-guesses");
     var random = Math.floor(Math.random() * 5);
     var currentWord = words[random];
+    var audio = document.getElementById(currentWord);
     var correctGuess = [];
     var incorrectGuess = [];
     var totalGuesses = [];
@@ -170,10 +172,18 @@
     }
     remainingGuesses()
   // determine if user won
-  function playAudio() {
-    var audio = document.getElementById(currentWord);
-    audio.play();
-  }
+    function playAudio() {
+      // play audio for current word
+      audio.play();
+      // add pause button for audio
+      var pause = document.getElementById("pause");
+      var pauseBtn = document.createElement("button");
+      pauseBtn.setAttribute("onclick", "pauseAudio()");
+      pauseBtn.setAttribute("type", "button");
+      pauseBtn.setAttribute("class", "pauseBtn");
+      pauseBtn.innerHTML="Pause";  
+      pause.appendChild(pauseBtn);
+    }
 
     function determineWin() {
       if ((correctGuess.length == currentWord.length) && guessesRemaining > -1) {
@@ -191,7 +201,9 @@
   }
 }
 
-
+function pauseAudio() {
+  audio.pause();
+}
 
 
 
