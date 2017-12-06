@@ -73,6 +73,14 @@ p {
   margin: 3px;
   }
 
+  .winLoss {
+    color: #dd5b1f;
+    font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
+    font-size: 20px;
+    display: inline-block;
+    margin: 3px;
+    }
+
 @media screen and (max-width:600px) {
   body {
     background-image: url();
