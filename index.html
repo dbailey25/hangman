@@ -12,13 +12,13 @@
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <!-- fonts -->
   <link href="https://fonts.googleapis.com/css?family=Baloo+Tamma|Bubblegum+Sans" rel="stylesheet">
-  <title>2-Hangman</title>
+  <title>Hangman</title>
 </head>
 
 <body>
 
   <!-- section for game play -->
-  <div class="playSpace">
+  <div id="playSpace">
 
     <!-- masthead -->
     <div class="title">
@@ -32,10 +32,11 @@
 
 
     <!-- game content -->
-    <p>Press any key to play!</p>
+    <p>Press a letter to guess the animal!</p>
+    <div class="letterDiv" id="win-loss"> </div>
     <p>Current word:</p>
     <div id="current-word"> </div>
-    <p>Guesses remaining: </p>
+    <p>Guesses remaining:</p>
     <div id="remaining-guesses" class="letterDiv"> </div>
     <p>Already guessed:</p>
     <div id="wrong-letters"> </div>
@@ -100,32 +101,54 @@
     var wordDiv = document.getElementById("current-word");
     var guessRemain = document.getElementById("remaining-guesses");
     var random = Math.floor(Math.random() * 5);
-    var currentWord = words[random];
-    var audio = document.getElementById(currentWord);
+    // var firstWord = ;
+    // var firstWordIndex = [];
+    var word = words[random];
+    var wordIndex = words.indexOf(word);
+    console.log("wordIndex-"+wordIndex);
+    var nextWordIndex = (function() {
+      var a;
+      if (wordIndex >= 0 && wordIndex < 4) {
+        a = wordIndex+1;
+      }
+      else {
+        a = 0;
+      }
+      return a;
+    })();
+    var audio = document.getElementById(word);
+    var winLoss = document.getElementById("win-loss");
     var correctGuess = [];
     var incorrectGuess = [];
     var totalGuesses = [];
     var guessesRemaining = [];
-    console.log(words[random]);
-    console.log(currentWord);
-    console.log("word length-"+currentWord.length);
 
-    // initial word generation
-    function initialWord() {
-      for (var i = 0; i < currentWord.length; i++) {
+    console.log(words[random]);
+    console.log("current word length-"+word.length);
+
+    // funaction to display a word
+    function displayWord() {
+      for (var i = 0; i < word.length; i++) {
         var correctLetterDiv = document.createElement("div");
         correctLetterDiv.innerHTML = "_";
         wordDiv.appendChild(correctLetterDiv);
         correctLetterDiv.setAttribute("class", "letterDiv");
-        correctLetterDiv.setAttribute("id", currentWord + "Letter" + i);
+        correctLetterDiv.setAttribute("id", word + "Letter" + i);
       }
-      // display initial guesses remaining
-      var initialGuesses = currentWord.length+6
+    // display initial guesses remaining
+      var initialGuesses = word.length+8;
       guessRemain.innerHTML = initialGuesses;
       guessesRemaining.push(initialGuesses);
       console.log("guessesRemaining-"+guessesRemaining);
     }
-    initialWord()
+  // display the initial word
+    displayWord()
+
+
+
+    console.log("nextWordIndex-"+nextWordIndex);
+    var nextWord = words[nextWordIndex]
+    console.log("nextWord-"+nextWord);
 
   // play game
   // capture user guess
@@ -137,14 +160,14 @@
     if (/[a-z]/.test(input)) {
   // verify that the letter has not been previously guessed
     if (correctGuess.indexOf(input) && incorrectGuess.indexOf(input) == -1){
-  // if user guess is correct
-    if (currentWord.indexOf(input) > -1) {
-      var correctLetter = document.getElementById(currentWord+"Letter"+currentWord.indexOf(input));
+    // if user guess is correct
+    if (word.indexOf(input) > -1) {
+      var correctLetter = document.getElementById(word+"Letter"+word.indexOf(input));
       correctLetter.innerHTML = input;
       correctGuess.push(input);
       console.log("correctGuess-"+correctGuess);
     }
-  // if user guess is incorrect
+    // if user guess is incorrect
     else {
       var incorrectLetter = document.getElementById("wrong-letters")
       var incorrectLetterDiv = document.createElement("div");
@@ -154,7 +177,7 @@
       incorrectGuess.push(input);
       console.log("incorrectGuess-"+incorrectGuess);
     }
-  // track number of guesses
+    // track number of guesses
     function guessCount() {
       var totGuesses = correctGuess.length + incorrectGuess.length
       totalGuesses = totGuesses;
@@ -162,18 +185,56 @@
     }
     guessCount()
   // decrement Guesses remaining display
+    var guessesLeft = guessesRemaining - totalGuesses
     function remainingGuesses() {
       console.log("input:remainingGuesses-"+input);
-        var guessesLeft = guessesRemaining - totalGuesses
         console.log("guessesRemaining-"+guessesRemaining);
         console.log("totalGuesses-"+totalGuesses);
         console.log("guessesLeft-"+guessesLeft);
         guessRemain.innerHTML = guessesLeft
     }
     remainingGuesses()
-  // determine if user won
+  // functions for win-loss actions
+  // function to clear previous guess values
+  function reset() {
+    correctGuess.length = 0;
+    incorrectGuess.length = 0;
+    totalGuesses.length = 0;
+    var parent = document.getElementById("playSpace");
+    var child = document.getElementById("current-word");
+    var newWordDiv = document.createElement("div");
+    parent.replaceChild(newWordDiv, child);
+    newWordDiv.setAttribute("id", "current-word");
+  }
+  // function to display next word
+  function displayNext() {
+    for (var i = 0; i < nextWord.length; i++) {
+      var correctLetterDiv = document.createElement("div");
+      var wordDiv = document.getElementById("current-word");
+      correctLetterDiv.innerHTML = "_";
+      wordDiv.appendChild(correctLetterDiv);
+      correctLetterDiv.setAttribute("class", "letterDiv");
+      correctLetterDiv.setAttribute("id", nextWord + "Letter" + i);
+    }
+  // display initial guesses remaining
+    var initialGuesses = word.length+8;
+    guessRemain.innerHTML = initialGuesses;
+    guessesRemaining.push(initialGuesses);
+    console.log("guessesRemaining-"+guessesRemaining);
+  }
+
+  // function to determine if the user lost
+  function determineLoss() {
+    if (guessesLeft === 0 && correctGuess.length < word.length) {
+      winLoss = document.createElement("div");
+      winLoss.innerHTML = "Sorry, try again";
+      reset();
+      displayNext();
+    }
+  }
+
+    // play audio for current word
     function playAudio() {
-      // play audio for current word
       audio.play();
       // add pause button for audio
       var pause = document.getElementById("pause");
@@ -181,19 +242,27 @@
       pauseBtn.setAttribute("onclick", "pauseAudio()");
       pauseBtn.setAttribute("type", "button");
       pauseBtn.setAttribute("class", "pauseBtn");
-      pauseBtn.innerHTML="Pause";  
+      pauseBtn.innerHTML="Pause";
       pause.appendChild(pauseBtn);
     }
 
+
     function determineWin() {
-      if ((correctGuess.length == currentWord.length) && guessesRemaining > -1) {
+      if (correctGuess.length === word.length && guessesRemaining >= 0) {
+        winLoss = document.createElement("div");
+        winLoss.innerHTML = "You got it. Great job!";
         var replaceImage = document.getElementById("game-image");
-        var newImage = "assets/images/"+currentWord+".jpg";
+        var newImage = "assets/images/"+word+".jpg";
         console.log("newImage-"+newImage);
         replaceImage.setAttribute("src",newImage);
         playAudio();
+        reset();
+        displayNext();
       }
     }
+
+  // call win-loss functions
+    determineLoss()
     determineWin()
 
 

@@ -8,7 +8,7 @@ body {
 
 /*Content Section*/
 
-.playSpace {
+#playSpace {
   /*background-color: gray;*/
   background: linear-gradient(#565860, black);
   width: 450px;
@@ -59,8 +59,8 @@ h2 {
 p {
   color: #b3bac6;
   font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
-  font-size: 25px;
-  margin: 18px 0 0 0;
+  font-size: 20px;
+  margin: 15px 0 0 0;
 }
 
 /*javascript styles*/
@@ -68,7 +68,7 @@ p {
 .letterDiv {
   color: #b3bac6;
   font-family: 'Bubblegum Sans', 'Cominc Sans MS', cursive;
-  font-size: 25px;
+  font-size: 20px;
   display: inline-block;
   margin: 3px;
   }
