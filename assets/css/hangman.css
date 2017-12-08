@@ -84,6 +84,7 @@ p {
     display: inline-block;
     margin: 3px;
     height: 27px;
+    width: 100%;
     }
 
 @media screen and (max-width:600px) {
