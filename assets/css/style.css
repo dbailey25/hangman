@@ -32,6 +32,10 @@ body {
   border-radius: 5px;
 }
 
+#pause {
+  height: 25px;
+}
+
 .pauseBtn {
   height: 20px;
   width: 50px;
@@ -79,6 +83,7 @@ p {
     font-size: 20px;
     display: inline-block;
     margin: 3px;
+    height: 27px;
     }
 
 @media screen and (max-width:600px) {

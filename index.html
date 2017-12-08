@@ -29,11 +29,10 @@
     <!-- image -->
     <img id="game-image" class="image" src="assets/images/hangman_lg.png" alt="image">
     <div id="pause">
-      <p id="btn"></p>
+      <div id="pauseButton"></div>
     </div>
 
-
-    <!-- game content -->
+    <!-- main content section-->
     <p>Press a letter to guess the animal!</p>
     <div class="winLoss" id="win-loss"> </div>
     <p>Current word:</p>
@@ -41,7 +40,7 @@
     <p>Guesses remaining:</p>
     <div id="remaining-guesses" class="letterDiv"> </div>
     <p>Already guessed:</p>
-    <div id="wrong-letters"> </div>
+    <div id="wrong-letters" class="letterDiv"> </div>
     <p>Wins: </p>
     <div class="letterDiv" id="win-count"> </div>
   </div>
@@ -69,73 +68,39 @@
   </audio>
 
   <script type="text/javascript">
-  // variables
+
     var words = ["bear", "monkey", "snake", "tiger", "zebra"]
-    // var bear = {
-    //   char: 4,
-    //   charArr: ["b", "e", "a", "r"],
-    //   image: "assets/images/bear.jpg",
-    //   audio: "assets/audio/bear.mp3"
-    // }
-    // var monkey = {
-    //   char: 6,
-    //   charArr: ["m", "o", "n", "k", "e", "y"],
-    //   image: "assets/images/monkey.jpg",
-    //   audio: "assets/audio/monkey.mp3"
-    // }
-    // var snake = {
-    //   char: 5,
-    //   charArr: ["s", "n", "a", "k", "e"],
-    //   image: "assets/images/snake.jpg",
-    //   audio: "assets/audio/snake.mp3"
-    // }
-    // var tiger = {
-    //   char: 5,
-    //   charArr: ["t", "i", "g", "e", "r"],
-    //   image: "assets/images/tiger.jpg",
-    //   audio: "assets/audio/tiger.mp3"
-    // }
-    // var zebra = {
-    //   char: 5,
-    //   charArr: ["z", "e", "b", "r", "a"],
-    //   image: "assets/images/zebra.jpg",
-    //   audio: "assets/audio/zebra.mp3"
-    // }
-    // var wordDiv = document.getElementById("current-word");
-    // var guessRemain = document.getElementById("remaining-guesses");
     var random = Math.floor(Math.random() * 5);
-    // var firstWord = ;
-    // var firstWordIndex = [];
     var word = words[random];
     var wordIndex = words.indexOf(word);
-    console.log("wordIndex-"+wordIndex);
-    var nextWordIndex = (function() {
-      var a;
-      if (wordIndex >= 0 && wordIndex < 4) {
-        a = wordIndex+1;
-      }
-      else {
-        a = 0;
-      }
-      return a;
-    })();
-
+    var nextWordIndex;
+    var nextWord;
     var winLoss = document.getElementById("win-loss");
     var correctGuess = [];
     var incorrectGuess = [];
-    var totalGuesses = [];
-    var guessesRemaining = [];
+    var totalGuesses;
+    var guessesRemaining;
+    var incorrectLetter = document.getElementById("wrong-letters")
+    var winNum = 0;
     var audioPlaying = "bear";
 
-    console.log(words[random]);
-    console.log("current word length-"+word.length);
-
+    // function to generate the next word
+    function wordNext() {
+      if (wordIndex >= 0 && wordIndex < 4) {
+        nextWordIndex = wordIndex+1;
+      }
+      else {
+        nextWordIndex  = 0;
+      }
+      nextWord = words[nextWordIndex]
+    }
+    wordNext()
     // funaction to display a word
     function displayWord() {
-      console.log("func.word:"+word);
+      var wordDiv = document.getElementById("current-word");
+      wordDiv.innerHTML = "";
       for (var i = 0; i < word.length; i++) {
         var correctLetterDiv = document.createElement("div");
-        var wordDiv = document.getElementById("current-word");
         correctLetterDiv.innerHTML = "_";
         wordDiv.appendChild(correctLetterDiv);
         correctLetterDiv.setAttribute("class", "letterDiv");
@@ -145,97 +110,68 @@
       var initialGuesses = word.length+8;
       var guessRemain = document.getElementById("remaining-guesses");
       guessRemain.innerHTML = initialGuesses;
-      guessesRemaining[0] = initialGuesses;
+      guessesRemaining = initialGuesses;
       // guessesRemaining.push(initialGuesses);
-      console.log("guessesRemaining-"+guessesRemaining);
     }
-  // display the initial word
     displayWord()
 
-
-
-    console.log("nextWordIndex-"+nextWordIndex);
-    var nextWord = words[nextWordIndex]
-    console.log("nextWord-"+nextWord);
-
-  // play game
+    function pauseAudio() {
+        var audio = document.getElementById(audioPlaying);
+      audio.pause();
+    }
+// play game
   // capture user guess
-    document.onkeyup = function(event) {
+  document.onkeyup = function(event) {
     var userInput = String.fromCharCode(event.keyCode);
     var input = userInput.toLowerCase();
-    console.log(input);
   // verify that the keystroke is a letter
     if (/[a-z]/.test(input)) {
   // verify that the letter has not been previously guessed
     if (correctGuess.indexOf(input) && incorrectGuess.indexOf(input) == -1){
-
+      winLoss.innerHTML = "";
+// /////////////////// temp var for testing ///////////////////////////
+//       isNewGuess = "true";
+//       console.log("isNewGuess_"+isNewGuess);
+// /////////////////////////////////////////////////////////////////////
     // if user guess is correct
     if (word.indexOf(input) > -1) {
       var correctLetter = document.getElementById(word+"Letter"+word.indexOf(input));
       correctLetter.innerHTML = input;
       correctGuess.push(input);
-      console.log("correctGuess-"+correctGuess);
     }
     // if user guess is incorrect
     else {
-      var incorrectLetter = document.getElementById("wrong-letters")
-      var incorrectLetterDiv = document.createElement("div");
-      incorrectLetterDiv.innerHTML = input+",";
-      incorrectLetterDiv.setAttribute("class", "letterDiv");
-      incorrectLetter.appendChild(incorrectLetterDiv);
       incorrectGuess.push(input);
-      console.log("incorrectGuess-"+incorrectGuess);
+      incorrectLetter.innerHTML = incorrectGuess;
     }
+
     // track number of guesses
     function guessCount() {
       var totGuesses = correctGuess.length + incorrectGuess.length
       totalGuesses = totGuesses;
-      console.log("totGuesses-"+totGuesses);
     }
     guessCount()
+
     // decrement Guesses remaining display
     var guessesLeft = guessesRemaining - totalGuesses;
     var guessRemain = document.getElementById("remaining-guesses");
-    console.log("guessRemain-"+guessRemain);
     function remainingGuesses() {
-      console.log("input:remainingGuesses-"+input);
-        console.log("guessesRemaining-"+guessesRemaining);
-        console.log("totalGuesses-"+totalGuesses);
-        console.log("guessesLeft-"+guessesLeft);
-        guessRemain.innerHTML = guessesLeft;
+      guessRemain.innerHTML = guessesLeft;
     }
     remainingGuesses()
-  // functions for win-loss actions
+
+
+// functions for win-loss actions
   // function to clear previous guess values
   function reset() {
     correctGuess.length = 0;
     incorrectGuess.length = 0;
     totalGuesses.length = 0;
-    var parent = document.getElementById("playSpace");
-    var child = document.getElementById("current-word");
-    var newWordDiv = document.createElement("div");
-    parent.replaceChild(newWordDiv, child);
-    newWordDiv.setAttribute("id", "current-word");
-  }
-  // function to display next word
-  function displayNext() {
-    for (var i = 0; i < nextWord.length; i++) {
-      var correctLetterDiv = document.createElement("div");
-      var wordDiv = document.getElementById("current-word");
-      correctLetterDiv.innerHTML = "_";
-      wordDiv.appendChild(correctLetterDiv);
-      correctLetterDiv.setAttribute("class", "letterDiv");
-      correctLetterDiv.setAttribute("id", nextWord + "Letter" + i);
-    }
-  // display initial guesses remaining
-    var initialGuesses = word.length+8;
-    var guessRemain = document.getElementById("remaining-guesses");
-    guessRemain.innerHTML = initialGuesses;
-    guessesRemaining[0] = initialGuesses;
-    // guessesRemaining.push(initialGuesses);
-    console.log("guessesRemaining-"+guessesRemaining);
+    incorrectLetter.innerHTML = "";
     word = nextWord;
-    }
+    wordIndex = words.indexOf(word);
+    wordNext();
+  }
 
   // function to determine if the user lost
   function determineLoss() {
@@ -244,40 +180,36 @@
       loss.innerHTML = "Sorry, try again";
       pauseAudio();
       reset();
-      displayNext();
+      displayWord();
     }
   }
+  determineLoss()
 
-    // play audio for current word
-    // function playAudio() {
-    //   var audio = document.getElementById(word);
-    //   console.log("play.word-"+word);
-    //   audio.play();
-    //   audioPlaying = word;
-    //   // add pause button for audio
-    //   var parent = document.getElementById("pause");
-    //   var child = document.getElementById("btn");
-    //   parent.removeChild(child);
-    //   var pauseDiv = document.getElementById("pause");
-    //   var pauseBtn = document.createElement("button");
-    //   pauseBtn.setAttribute("onclick", "pauseAudio()");
-    //   pauseBtn.setAttribute("type", "button");
-    //   pauseBtn.setAttribute("class", "pauseBtn");
-    //   pauseBtn.innerHTML="Pause";
-    //
-    //   // pauseDiv.replaceChild(pauseBtn, child);
-    //   pauseDiv.appendChild(pauseBtn);
-    // }
+  // functions to play and pause audio_
+  function playAudio() {
+    var pauseDiv = document.getElementById("pause");
+    var pauseBtn = document.createElement("button");
+    var child = document.getElementById("pauseButton");
+    var audio = document.getElementById(word);
+    pauseDiv.removeChild(child);
+    audio.play();
+    audioPlaying = word;
+    // add pause button for audio
+    pauseBtn.setAttribute("onclick", "pauseAudio()");
+    pauseBtn.setAttribute("type", "button");
+    pauseBtn.setAttribute("class", "pauseBtn");
+    pauseBtn.setAttribute("id", "pauseButton");
+    pauseBtn.innerHTML="Pause";
+    pauseDiv.appendChild(pauseBtn);
+    }
 
-    // functions if the user won
+  // functions if the user wins
     // count Wins
-    var winNum = 0;
-    var winCount;
     function countWins() {
-      winCount = winNum++;
+      winCount = winNum+1;
+      winNum = winCount;
       var countWin = document.getElementById("win-count");
       countWin.innerHTML = winCount;
-      console.log("winCount:"+winCount);
     }
     function determineWin() {
       if (correctGuess.length === word.length && guessesRemaining >= 0) {
@@ -285,31 +217,18 @@
         win.innerHTML = "Great job! Let's try another.";
         var replaceImage = document.getElementById("game-image");
         var newImage = "assets/images/"+word+".jpg";
-        console.log("newImage-"+newImage);
         replaceImage.setAttribute("src",newImage);
         countWins();
-        // pauseAudio();
-        // playAudio();
+        pauseAudio();
+        playAudio();
         reset();
-        displayNext();
+        displayWord();
       }
     }
-
-  // call win-loss functions
-    determineLoss()
     determineWin()
-
-
+      }
     }
   }
-}
-
-// function pauseAudio() {
-//     var audio = document.getElementById(audioPlaying);
-//   audio.pause();
-// }
-
-
 
   </script>
 
